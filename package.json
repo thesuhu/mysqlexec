@@ -1,0 +1,23 @@
+{
+  "name": "mysqlexec",
+  "version": "1.0.0",
+  "description": "Running MySQL queries made easier",
+  "main": "mysqlexec.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesuhu/mysqlexec.git"
+  },
+  "author": "thesuhu <thesuhu@protonmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thesuhu/mysqlexec/issues"
+  },
+  "homepage": "https://github.com/thesuhu/mysqlexec#readme",
+  "dependencies": {
+    "@thesuhu/colorconsole": "^1.0.5",
+    "mysql": "^2.18.1"
+  }
+}
