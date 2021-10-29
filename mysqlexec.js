@@ -69,6 +69,7 @@ function prosesSQL(connection, sql, resolve, reject, ressql, queryId, callback) 
 
         if (err) {
             connection.rollback()
+            connection.release()
             if (env == 'dev') {
                 sqlLogConsole('rollback')
             }
