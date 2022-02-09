@@ -9,7 +9,7 @@ exports.myexec = function (sql, parameters) {
         pool.getConnection((error, connection) => {
             if (error) {
                 reject({
-                    message: error.sqlMessage
+                    message: error.sqlMessage || error.code
                 })
                 return
             }
@@ -23,7 +23,7 @@ exports.myexec = function (sql, parameters) {
                 connection.release()
                 if (error) {
                     reject({
-                        message: error.sqlMessage
+                        message: error.sqlMessage || error.code
                     }) //https://github.com/mysqljs/mysql#error-handling
                     return
                 }
@@ -74,7 +74,7 @@ function prosesSQL(connection, sql, resolve, reject, ressql, queryId, callback) 
                 sqlLogConsole('rollback')
             }
             reject({
-                message: err.sqlMessage
+                message: err.sqlMessage || error.code
             })
             return
         }
