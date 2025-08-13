@@ -11,12 +11,10 @@ const dbconfig = {
     port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
     waitForConnections: true,
     connectionLimit: parseInt(process.env.MYSQL_CONN_LIMIT, 10) || 10,
-    maxIdle: parseInt(process.env.MYSQL_MAX_IDLE, 10) || 10, // max idle connections, the default value is the same as `connectionLimit`
-    idleTimeout: parseInt(process.env.MYSQL_IDLE_TIMEOUT, 10) || 60000, // idle connections timeout, in milliseconds, the default value 60000
-    // keepAliveInterval: 10000, // tidak perlu jika enable keep alive = true
-    queueLimit: 0,
+    maxIdle: parseInt(process.env.MYSQL_MAX_IDLE, 10) || 10,
+    idleTimeout: parseInt(process.env.MYSQL_IDLE_TIMEOUT, 10) || 60000,
+    queueLimit: parseInt(process.env.MYSQL_QUEUE_LIMIT, 10) || 100, // ✅ Set limit yang reasonable
     enableKeepAlive: true,
-    keepAliveInitialDelay: 0,
     timezone: process.env.MYSQL_TIMEZONE || 'Z'
 };
 
