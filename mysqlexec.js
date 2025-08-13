@@ -20,40 +20,18 @@ const dbconfig = {
     timezone: process.env.MYSQL_TIMEZONE || 'Z'
 };
 
-// // Create the connection pool. The pool-specific settings are the defaults
-// exports.initialize = async function initialize(customConfig) {
-//     let consoleConfig = { ...customConfig };
-//     try {
-//         const poolAlias = customConfig && customConfig.poolAlias ? customConfig.poolAlias : 'default';
-//         if (customConfig) {
-//             if (env === 'dev') {
-//                 console.log(consoleConfig);
-//             }
-//             pools[poolAlias] = mysql.createPool(customConfig); // Use mysql2.Pool to create the pool
-//             logConsole('pool created: ' + poolAlias);
-//         } else {
-//             if (env === 'dev') {
-//                 console.log(dbconfig);
-//             }
-//             pools[poolAlias] = mysql.createPool(dbconfig);
-//             logConsole('pool created: ' + poolAlias);
-//         }
-//     } catch (err) {
-//         errorConsole(err.message);
-//     }
-// };
-
 // Create the connection pool. The pool-specific settings are the defaults
 exports.initialize = async function initialize(customConfig) {
+    let consoleConfig = { ...customConfig };
     try {
-        const poolAlias = customConfig?.poolAlias || 'default';
+        const poolAlias = customConfig && customConfig.poolAlias ? customConfig.poolAlias : 'default';
         if (customConfig) {
             if (env === 'dev') {
-                console.log(customConfig);
+                console.log(consoleConfig);
             }
-            // Hapus poolAlias dari customConfig sebelum dipakai
-            const { poolAlias: _, ...configWithoutAlias } = customConfig;
-            pools[poolAlias] = mysql.createPool(configWithoutAlias);
+            // Remove poolAlias from config before passing to mysql.createPool to avoid warning
+            const { poolAlias: _, ...cleanConfig } = customConfig;
+            pools[poolAlias] = mysql.createPool(cleanConfig); // Use mysql2.Pool to create the pool
             logConsole('pool created: ' + poolAlias);
         } else {
             if (env === 'dev') {
@@ -63,11 +41,9 @@ exports.initialize = async function initialize(customConfig) {
             logConsole('pool created: ' + poolAlias);
         }
     } catch (err) {
-        errorConsole('Error creating pool: ' + err.message);
-        throw new Error(err.message);
+        errorConsole(err.message);
     }
 };
-
 
 // single query
 exports.myexec = function (sql, parameters, poolAlias = 'default') {
